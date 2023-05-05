@@ -1,0 +1,267 @@
+/* Import Google Fonts */
+@import url("//fonts.googleapis.com/css2?family=Concert+One:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
+
+/* Form Division */
+form{
+ position:relative;
+ transform:translatex(729px) translatey(171px);
+ min-height:357px;
+ width:410px;
+ height:357px;
+}
+
+/* Username */
+form .username{
+ position:relative;
+ min-height:5px;
+ transform:translatex(0px) translatey(0px);
+ width:408px;
+ height:50px;
+ text-align:center;
+ font-family:'Concert One', display;
+ font-size:25px;
+ line-height:2em;
+}
+
+/* Input username */
+form .input-username{
+ position:relative;
+ width:400px;
+ height:50px;
+}
+
+/* Username */
+#username{
+ position:relative;
+ width:400px;
+ min-height:5px;
+ transform:translatex(0px) translatey(0px);
+ height:50px;
+}
+
+/* Password */
+form .password{
+ position:relative;
+ min-height:4px;
+ transform:translatex(0px) translatey(6px);
+ width:408px;
+ height:50px;
+ font-family:'Concert One', display;
+ text-align:center;
+ font-size:25px;
+ line-height:50px;
+}
+
+/* Input password */
+form .input-password{
+ position:relative;
+}
+
+/* Button */
+form .button{
+ position:relative;
+ transform:translatex(130px) translatey(49px);
+ width:160px;
+ min-height:52px;
+}
+
+/* Body */
+body{
+ min-height:855px;
+}
+
+/* Password */
+#password{
+ width:400px;
+ min-height:5px;
+ height:50px;
+ transform:translatex(0px) translatey(6px);
+}
+/* Username */
+#username{
+    text-align:center;
+    font-size:25px;
+    letter-spacing:0.9px;
+   }
+   
+   /* Password */
+   #password{
+    font-size:25px;
+    text-align:center;
+    letter-spacing:0.9px;
+   }
+
+   /* Button */
+form .button{
+    transform:translatex(128px) translatey(47px);
+   }
+   
+   /* Form Division */
+   form{
+    background-color:#d86d6d;
+    background-image:linear-gradient(to right, #5f2c82 0%, #49a09d 100%);
+    border-width:1px;
+    border-style:solid;
+    border-color:#000000;
+    border-radius: 20px;
+   }
+   /* Import Google Fonts */
+@import url("//fonts.googleapis.com/css2?family=Cute+Font:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap");
+
+/* Username */
+#username{
+ width:270px;
+ transform:translatex(64px) translatey(0px);
+ background-image:linear-gradient(to right, #c9ffbf 0%, #ffafbd 100%);
+}
+
+/* Password */
+#password{
+ width:270px;
+ transform:translatex(66px) translatey(6px);
+ background-image:linear-gradient(to right, #c9ffbf 0%, #ffafbd 100%);
+ background-size:auto;
+}
+
+/* Form Division */
+form{
+ background-image:linear-gradient(to right, #feac5e 0%, #c779d0 0%, #4bc0c8 100%);
+}
+
+/* Username */
+form .username{
+ color:#ffffff;
+ font-size:30px;
+ line-height:1.6em;
+ font-family:Cute Font, display;
+}
+
+/* Password */
+form .password{
+ font-size:30px;
+ line-height:1.6em;
+ color:#ffffff;
+ font-family:'Cute Font', display;
+}
+/* Username */
+#username{
+    background-color:rgba(32,32,33,0.11);
+    background-image:none;
+    border-width:0.01px;
+    border-style:solid;
+    border-color:rgba(0,0,0,0.18);
+   }
+   
+   /* Password */
+   #password{
+    background-image:none;
+    background-color:rgba(32,32,32,0.11);
+    border-width:1px;
+    border-color:rgba(0,0,0,0.24);
+   }
+   
+   /* Form Division */
+   form{
+    width:412px;
+   }
+   /* Mensaje */
+.mensaje{
+    position:absolute;
+    width:669px;
+    min-height:36px;
+    transform:translatex(589px) translatey(131px);
+    font-size:26px;
+    color:#fb1717;
+    text-align:center;
+   }
+   form{
+    min-height:441px;
+   }
+   
+   /* Username */
+   form .username{
+    transform:translatex(0px) translatey(106px);
+   }
+   
+   /* Button */
+   form .button{
+    transform:translatex(93px) translatey(135px);
+    width:236px;
+    min-height:76px;
+   }
+   
+   /* Password */
+   #password{
+    transform:translatex(74px) translatey(138px);
+   }
+   
+   /* Username */
+   #username{
+    transform:translatex(75px) translatey(93px);
+   }
+   
+   /* Password */
+   form .password{
+    transform:translatex(0px) translatey(110px);
+   }
+   
+   /* Input password */
+   form .input-password{
+    transform:translatex(0px) translatey(-28px);
+   }
+   
+   /* Input username */
+   form .input-username{
+    transform:translatex(0px) translatey(34px);
+    top:-21px;
+   }
+   /* Login */
+form .login{
+    position:absolute;
+    min-height:63px;
+    transform:translatex(75px) translatey(34px);
+    width:253px;
+    font-size:31px;
+    text-align:center;
+    font-family:'Courier New',Courier,'Lucida Sans Typewriter','Lucida Typewriter',monospace;
+    letter-spacing:3.7px;
+    word-spacing:1px;
+    column-count:1;
+    text-shadow:rgb(255, 255, 255) 0px 1px 1px, rgb(0, 0, 0) 0px -1px 1px;
+    font-style:normal;
+    line-height:56.8px;
+    color:#ffffff;
+   }
+   form .button{
+    display: inline-block;
+    transition: all 0.2s ease-in-out;
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+   
+    color: #fff;
+    background-color: #1e8077;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+    
+    cursor: pointer;
+   }
+   
+/* Form Division */
+form{
+    transform:translatex(734px) translatey(394px);
+   }
+   
+   /* Login */
+   form .login{
+    transform:translatex(78px) translatey(18px);
+   }
+   
+   
+   
+   
+   
+   

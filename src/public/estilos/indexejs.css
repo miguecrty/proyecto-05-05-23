@@ -1,0 +1,418 @@
+/* Button detener */
+ #op button:nth-child(4) {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: none;
+    background-color:rgb(124, 0, 0);
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  /*Boton iniciar*/
+  #op button:nth-child(3){
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: none;
+    background-color:rgb(0, 82, 0);
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  /* Button */
+  #op button{
+    position:relative;
+    left:375px;
+    top:-39px;
+   }
+   .container .left-inicio .facturas{
+    transform:translatex(383px) translatey(-93px);
+    }
+    /* Facturas */
+  .container .left-inicio .facturas{
+    position:relative;
+    top:-70px;
+    left:-4px;
+    }
+
+    .container .left-inicio .facturas{
+      top:17px;
+      left:-15px;
+      }
+      .container .left-inicio .facturas{
+        border-radius: 20px;
+        }
+   .container .left-inicio .facturas{
+    left:-18px;
+    background-color:black;
+    color:white;
+    border-width: 10px;
+    border-color: #000f6e;
+    font-weight: bold;
+    }
+    .container .left-inicio .facturas{
+      min-width:120px;
+      max-width:none;
+      min-height:43px;
+      left:-35px;
+      }
+
+      
+    
+        /* Facturas */
+
+  
+
+   /* Span Tag */
+   #op span{
+    position:relative;
+    top:16px;
+    left:152px;
+   }
+   /* Container */
+
+ 
+ 
+   
+   
+   /* Button */
+   .container a{
+    position:relative;
+    top:-55px;
+    left:337px;
+   }
+   /*BOTON A OTRA PAGINA ANIMADO*/
+   .buttonpag {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: #fff;
+    background-color: #0015ff;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .buttonpag:hover {
+    transform: scale(1.1);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Span Tag */
+  #op span{
+    left:60px;
+   }
+   
+   #op button:nth-child(3){
+    left:320px;
+   }
+   
+   /* Buttonpag */
+   .container .buttonpag{
+    left:286px;
+   }
+   
+  /* Textoequipos */
+  .container .textoequipos {
+    width: 211px;
+    position: relative;
+    top: 50px;
+    left: 27px;
+    min-height: 115px;
+    transform: translateX(3px) translateY(-24px);
+    padding-top: 3px;
+    text-align: center;
+    background-image: url('../imagenes/textoequipos.jpg'); /* Agregado para establecer la imagen de fondo */
+    background-size: cover; /* Agregado para ajustar la imagen de fondo al tamaño del elemento */
+  }
+   
+   /* Button */
+   #op button:nth-child(4){
+    left:320px;
+   }
+  
+  /*NOMBRES DE LOS EQUIPOS*/
+  #op span:nth-child(1) {
+    top:33px;
+    color: rgb(0, 0, 0);
+    background-image: linear-gradient(to right, #e1e0ff 0%, #8d97ff 100%);
+    font-size: 40px;
+    font-weight: bold;
+    animation: animacion 1s ease-in-out infinite alternate;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    border: 8px solid black; /* agregar borde */
+    padding: 15px; /* agregar padding */
+  }
+  
+  @keyframes animacion {
+    from {
+      transform: rotateY(0deg);
+    }
+    to {
+      transform: rotateY(360deg);
+    }
+  }
+  /* List */
+  .container .left-inicio{
+    min-height:500px;
+    min-width: 500px;
+    margin-left: 50px;
+    margin-top: 20px;
+    background-image: linear-gradient(to right, #00061e 0%, rgb(24, 22, 124) 30%, rgb(66, 57, 164), 60%, #6d66d5 100%);
+    border-radius: 20px;
+    border: 10px solid rgb(0, 0, 65);
+  }
+
+  /* Right*/
+  .container .right-inicio{
+    height:500px;
+    background-color:transparent;
+    transform:translatex(-200px) translatey(168px);
+    min-height:667px;
+    width:63%;
+    height:701px;
+    position:relative;
+    bottom:-49px;
+    top:-94px;
+    min-width:63%;
+    left:400px;
+   }
+
+   /*Cuerpo*/
+body{
+  background-image: url(../imagenes/fondo_towapo.jpg);
+  background-attachment: fixed;
+  height: 100%;
+  transform:translatex(0px) translatey(0px);
+  min-height:887px;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  margin-left: 10px;
+}
+/*Contenedores*/
+.container {
+  display: flex;
+  transform:translatex(-25px) translatey(105px);
+  width:100%;
+  min-height:755px !important;  
+}
+/* Facturas */
+.container .left-inicio .facturas{
+ transform:translatex(383px) translatey(-93px);
+}
+
+/* Button */
+.container .left-inicio #op button{
+ transform:translatex(-80px) translatey(10px) !important;
+}
+/* Division */
+/* Division */
+#op div{
+  position:absolute;
+ }
+ 
+ /* Division */
+ .container .left-inicio #op div{
+  width:136px !important;
+  transform:translatex(357px) translatey(-124px) !important;
+ }
+/* Division */
+#op div{
+  text-align:center;
+  color:#710000;
+  font-family:'Arial Black','Arial Bold',Gadget,sans-serif;
+  font-size:24px;
+  line-height:1.1em;
+  min-height:31px;
+ }
+ 
+ /* Division */
+ .container .left-inicio #op div{
+  transform:translatex(356px) translatey(-130px) !important;
+ }
+ .importante {
+  display: none;
+  font-weight: bold;
+  color: rgb(123, 0, 0);
+}
+
+@keyframes slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+ 
+
+/* Button */
+.container .left-inicio #op button{
+  transform:translatex(-36px) translatey(-4px) !important;
+ }
+
+
+/* Button */
+#op button{
+  right:-320px;
+  left:387px !important;
+ }
+ 
+ .container{
+  min-height:766px !important;
+  transform:translatex(-17px) translatey(115px);
+ }
+ 
+/* Left inicio */
+.container .left-inicio{
+  transform:translatex(-22px) translatey(-3px);
+  position:absolute;
+  display:inline-block;
+ }
+ 
+ /* Link */
+ .left-inicio div a{
+  margin-left:175px;
+  position:absolute;
+  transform:translatex(739px) translatey(99px);
+  margin-right:91px;
+  left:288px;
+  top:-60px;
+  z-index:130;
+  width:256px;
+  margin-bottom:17px;
+  padding-top:12px;
+ }
+/* Link */
+
+
+ .parte-dcha{
+ 
+  transition: all 0.3s ease-in-out;
+  background-size: cover; /* Ajusta el tamaño de la imagen para cubrir todo el contenedor */
+  background-position: center;
+  background-image: url(../imagenes/quienes_somos.jpg);;
+  cursor: pointer;
+  background-size: cover;
+}
+.container .parte-dcha{
+  height:72px;
+ }
+.left-inicio .parte-dcha a{
+  margin-bottom:561px;
+  transform:translatex(352px) translatey(68px);
+  margin-left:336px;
+  margin-right:361px;
+  
+ }
+
+.parte-dcha:hover {
+  transform: scale(1.2); /* Agrandamos el div al 120% */
+}
+  
+
+/* Parte dcha */
+.container .parte-dcha{
+  margin-right:98px;
+  transform:translatex(969px) translatey(17px) !important;
+  width:726px;
+  position:absolute;
+  height:621px;
+ }
+ 
+ /* Parte dcha */
+ .container .left-inicio .parte-dcha{
+  margin-top:2px;
+  transform:translatex(928px) translatey(-12px) !important;
+ }
+ 
+ /* Link */
+ .container .parte-dcha a{
+  padding-top:12px;
+  display:inline-block !important;
+  transform:translatex(-88px) translatey(76px);
+ }
+ 
+ /* Link */
+ .left-inicio .parte-dcha a{
+  transform:translatex(-339px) translatey(81px);
+ }
+ /* Left inicio */
+.container .left-inicio{
+  transform:translatex(86px) translatey(15px);
+ }
+ 
+ /* Parte dcha */
+ .container .left-inicio .parte-dcha{
+  display:none;
+ }
+ 
+ /* Parte dcha */
+ .container .parte-dcha{
+  transform:translatex(1088px) translatey(58px) !important;
+ }
+ /* Parte dcha */
+.container .parte-dcha{
+  height:288px;
+  margin-right:0px;
+  transform:translatex(930px) translatey(58px) !important;
+  width:338px;
+ }
+ 
+ /* Link */
+ .container .parte-dcha a{
+  transform:translatex(-253px) translatey(68px);
+ }
+
+ .seg-video{
+  background-color: white;
+  float: right;
+ }
+ /* Button */
+#op button{
+  height:80px !important;
+  width:20%;
+ }
+ 
+ /* Division */
+ #op{
+  min-height:148px;
+ }
+ 
+ /* Facturas */
+ .container .left-inicio .facturas{
+  transform:translatex(383px) translatey(-38px) !important;
+ }
+ 
+ /* Button */
+ .container .left-inicio #op button{
+  transform:translatex(-31px) translatey(8px) !important;
+ }
+ /* Importante */
+#op .importante{
+  position:relative;
+  top:95px;
+  left:-12px;
+ }
+ 
+ /* Importante */
+ .container .left-inicio #op .importante{
+  transform:translatex(353px) translatey(-123px) !important;
+ }
+ 
+ /* Facturas */
+ .container .left-inicio .facturas{
+  transform:translatex(383px) translatey(-45px) !important;
+ }
+ 
+ 

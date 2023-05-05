@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Factura</title>
+    <link rel="stylesheet" href="estilos/facturaejs.css" />
+  </head>
+  <body>
+    
+    <div class="factura">
+      <div class="factura-header">
+        <div class="factura-empresa">
+          <h2>Locutorio mal hecho</h2>
+          <p>Calle Feria 19</p>
+          <p>CP 41002 Sevilla</p>
+          <p>Teléfono: 667239872</p>
+        </div>
+        <div class="factura-info">
+          <h1>Factura</h1>
+          <p>Número: <%=valores.num_factura%></p>
+          <p>Fecha: <%=valores.fecha%></p>
+        </div>
+      </div>
+
+      <div class="factura-cliente">
+        <h3>Cliente:</h3>
+        <p>Nombre: <%=valores.cliente%></p>
+      </div>
+      <h3>Precio</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio unitario</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Equipo <%=valores.equipo%></td>
+            <td>1</td>
+            <td>5€</td>
+            <td>5€</td>
+          </tr>
+          <tr>
+            <td>Fibra Óptica 600Mbps</td>
+            <td>1</td>
+            <td>3€</td>
+            <td>3€</td>
+          </tr>
+          <tr>
+            <td>Tiempo de uso (minutos)</td>
+            <td><%=valores.tiempo_uso%></td>
+            <td>0.05€</td>
+            <td><%=valores.coste_tu%>€</td>
+          </tr>
+        </tbody>
+        <tfoot>
+        </tfoot>
+      </table>
+      <h3>Penalizaciones</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio unitario</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Paquetes superados(Bajada)</td>
+            <td><%=factura.factura1%></td>
+            <td>0.01€</td>
+            <td><%=ponderaciones.penalizacion1%>€</td>
+          </tr>
+          <tr>
+            <td>Paquetes superados(Subida)</td>
+            <td><%=factura.factura2%></td>
+            <td>0.02€</td>
+            <td><%=ponderaciones.penalizacion2%>€</td>
+          </tr>
+          <tr>
+            <td>RAM superada</td>
+            <td><%=factura.factura3%></td>
+            <td>0.1€</td>
+            <td><%=ponderaciones.penalizacion3%>€</td>
+          </tr>
+          <tr>
+            <td>CPU</td>
+            <td><%=factura.factura4%></td>
+            <td>0.25€</td>
+            <td><%=ponderaciones.penalizacion4%>€</td>
+          </tr>
+          <!--
+          <tr>
+            <td>Producto 3</td>
+            <td><%=factura.factura5%></td>
+            <td>5€</td>
+            <td>15€</td>
+          </tr>
+          <tr>
+            <td>Producto 3</td>
+            <td><%=factura.factura6%></td>
+            <td>5€</td>
+            <td>15€</td>
+          </tr>
+          -->
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">Total</td>
+            <td><%=ponderaciones.total%>€</td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div class="factura-footer">
+        <p>Gracias por su compra</p>
+      </div>
+    </div>
+    <button id="btnDescargar">Descargar en PDF</button>
+</body>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
+<script>
+  const cliente = document.querySelector('.factura-cliente p').textContent.split(': ')[1];
+  const btnDescargar = document.querySelector("#btnDescargar");
+  const element = document.querySelector(".factura");
+  window.onload = function() {
+  html2pdf()
+      .from(element)
+      .then((pdfData) => {
+    fetch('/guardar-archivo?cliente='+cliente, {
+      method: 'POST',
+      body: pdfData,
+    })
+      .then((response) => {
+        console.log('factura guardada correctamente en la BBDD');
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  });
+}
+  btnDescargar.addEventListener("click", () => {
+    html2pdf()
+      .from(element)
+      .save("factura-"+cliente+".pdf");
+  });
+</script>
+</body>
+</html>

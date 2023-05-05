@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      body {
+        background-image: url("/imagenes/fondo3.jpg");
+        background-size: cover;
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <title>LOCUTORIO MAL HECHO</title>
+    <link rel="stylesheet" href="estilos/login.css">
+    <link rel="shortcut icon" href="imagenes/logo.png">
+  </head>
+  <body>
+    <% if (mensaje) { %>
+      <div class="mensaje"><%=mensaje%></div>
+    <% } %>
+    <form action="/compruebalogin" method="POST">
+      <div class="login">Log-IN</div>
+      <div class="username" >Nombre:</div>
+      <div class="input-username">
+      <input type="text" id="username" name="username" required>
+      </div>
+    
+      <div class="password">Clave:</div>
+      <div class="input-password">
+      <input type="password" id="password" name="password" required>
+      </div>  
+      <button class="button" type="submit">Entrar</button>
+    </form>
+</body>
+</html>

@@ -1,0 +1,207 @@
+.select-options .select-option img{
+    display:inline-block;
+    min-height:139px;
+    width:133px;
+   }
+
+  .select-options {
+    display: flex;
+    top: 100%;
+    left: 0;
+    z-index: 999;
+    padding: 5px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    max-height: 600px;
+    overflow-y: auto;
+    cursor: pointer;
+    align-items: center;
+  }
+  
+  .select-option:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .select-custom .select-options .select-option{
+    width:598px;
+    transform:translatex(0px) translatey(0px);
+   }
+   
+  /* Tabla de equipos a monotorizar */
+  .select-options .select-option .table-option{
+   position:absolute;
+   top:-17px;
+   left:66px;
+   transform:translatex(64px) translatey(22px);
+   width:452px;
+   min-height:113px;
+   bottom:69px;
+   right:18px;
+   z-index:-10;
+   margin-right:22px;
+  }
+  
+  /* Table Data */
+  .select-options tr td{
+   transform:translatex(23px) translatey(0px);
+   margin-left:0px;
+   position:sticky;
+   box-shadow:0px 0px 1px 0px #4e8ca6 inset;
+   opacity:1;
+   visibility:visible;
+   background-color:rgba(177,198,240,0.32);
+   background-size:auto;
+   background-position-x:0%;
+   background-repeat:repeat;
+   font-family:'Alike Angular', serif;
+   text-align:center;
+  }
+  
+  /* Table Data */
+  .container .left .select-custom .select-options .select-option .table-option tbody tr th{
+    width:358px !important;
+   }
+  
+  /* Th */
+  .select-options tr th{
+   transform:translatex(-5px) translatey(0px);
+   padding-left:0px;
+   padding-right:0px;
+   padding-top:0px;
+   font-family:'Fira Sans', sans-serif;
+   color:#000000;
+   font-size:16px;
+   line-height:11.4px;
+   font-style:normal;
+   text-transform:none;
+   text-decoration:none;
+   text-shadow:rgba(0, 0, 0, 0.3) 0px 1px 1px;
+   text-align:center;
+   white-space:pre;
+   letter-spacing:0.4px;
+   word-spacing:1.9px;
+   direction:rtl;
+   column-count:1;
+   background-color:#baceec;
+   position:relative;
+   left:29px;
+   height:35px;
+  }
+  .left .select-custom .select-options{
+    flex-direction:column;
+   }
+   
+  
+  /* Select header */
+  .left .select-custom .select-header{
+   text-align:center;
+   position:relative;
+   min-height:41px;
+   transform:translatex(0px) translatey(0px);
+   font-size:25px;
+   line-height:39.5px;
+   font-family:'Averia Libre', display;
+   background-repeat:repeat;
+   color:rgb(0, 0, 0);
+   background-clip:border-box;
+   background-attachment:scroll;
+   background-blend-mode:color-dodge;
+   background-color:#cdf3e5;
+  }
+    /* Tit grafica */
+    .right div .tit-grafica{
+        background-color:#9bd0d4;
+        background-size:contain;
+        border-color:#b96e6e;
+        border-width:5px;
+        text-align:center;
+        min-height:27px;
+        line-height:23.8px;
+        font-family:'Fira Sans Condensed', sans-serif;
+       }
+        /* Select option */
+   .select-custom .select-options .select-option{
+    min-width:0px;
+    max-width:688px;
+   }
+   .container .left .select-custom{
+    width:48% !important;
+   }
+        /* Select custom */
+        .container .select-custom{
+            transform:translatex(586px) translatey(-34px);
+           }
+        .left .select-custom .select-header {
+            text-align: center;
+            position: relative;
+            font-size: 25px;
+            line-height: 39.5px;
+            font-family: 'Averia Libre', display;
+            background-color: #cdf3e5;
+        }
+         /* Select custom */
+.container .left .select-custom{
+        width:638px !important;
+}
+
+/* Container */
+.container{
+  top:180px;
+  position:relative;
+  bottom:50px;
+   }
+   
+   /* Select custom */
+   .container .select-custom{
+    position:relative;
+    left:-200px;
+    right:-187px;
+    transform:translatex(351px) translatey(-47px);
+   }
+
+   /* Division */
+.container .right > div{
+  background-color:#ffffff;
+ }
+ 
+
+
+
+ /* Division */
+.container .right > div{
+  position:relative;
+  bottom:26px;
+ }
+ 
+ /* Seleccion */
+.container .seleccion{
+  position:absolute;
+  min-height:228px;
+  width:711px;
+  transform:translatex(961px) translatey(17px);
+  height:303px;
+ }
+ /* Seleccion */
+#seleccion{
+  font-size:37px;
+  font-family:'Trebuchet MS','Lucida Grande','Lucida Sans Unicode','Lucida Sans',Tahoma,sans-serif;
+  text-align:center;
+  transform:translatex(785px) translatey(62px);
+  height:128px;
+  top:37px;
+  width:621px;
+  min-height:128px;
+ }
+/* Tiempo */
+#tiempo{
+  font-size:32px;
+  transform:translatex(785px) translatey(110px);
+  height:48px;
+  top:-66px;
+  min-height:31px;
+  width:622px;
+  text-align:center;
+ } 
+ 
+ 

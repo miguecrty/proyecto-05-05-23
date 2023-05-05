@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<script></script>
+  <head>
+    <meta charset="UTF-8" />
+    <title>LOCUTORIO MAL HECHO</title>
+    <link rel="stylesheet" href="estilos/cabecera.css">
+    <link rel="stylesheet" href="estilos/indexejs.css">
+    <link rel="shortcut icon" href="imagenes/logo.png">
+    <script  type="text/javascript" src="js/index.js "></script>
+  </head>
+  <header id="cabecera">
+    <a href="/">
+    <img id="img" src="/imagenes/header.png" alt="G.R" />
+    </a>
+      <ul class="main-menu">
+      <li class="cta" onclick="cerrarSesion()">Cerrar Sesión</li>
+    </ul>
+    <script>
+      function cerrarSesion() {
+        // Crear un elemento de formulario
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/logout';
+        document.body.appendChild(form);
+        form.submit();
+      }
+    </script>
+  </header>
+
+  <body>
+ 
+<div class="container">
+  <div class ="seg-video">
+
+  </div>
+  <div class ="parte-dcha"> 
+    <a href="/prueba">About us</a>
+  </div>
+  
+
+
+  <div class="left-inicio">
+   
+
+    <div class="textoequipos"> </div>
+  <br>
+ 
+  <a href="/consulta" class="buttonpag">Ir a otra página</a>
+  <% pcs.forEach(opcion => { %>
+    <div id="op" class="botones">
+      <span><%=opcion.syscontact%></span>
+      <br>
+        <% if(opcion.estado == false ) {%>
+      <button id="botonI-<%=opcion.id%>">Iniciar SNMP</button>
+      <button id="botonD-<%=opcion.id%>" style="display:none;">Detener SNMP</button>
+        <% }
+        else{ %>
+        <button id="botonI-<%=opcion.id%>" style="display:none;">Iniciar SNMP</button>
+      <button id="botonD-<%=opcion.id%>">Detener SNMP</button> 
+       <% }
+        %>
+        <div id="mensaje-<%=opcion.id%>" class="importante" style="display:none;">↓↓↓↓</div>
+    </div>
+    
+    <button id="factura-<%=opcion.id%>" class="facturas" style="display:none;">Ver factura</button>
+    <% }); %>
+    <ul id="datos"></ul>
+  </div>
+ 
+
+
+
+<script>
+  function consultar() { 
+    setInterval(function() {
+      fetch('/consulta')
+        .then(res => res.json())
+        .then(data => {
+          let html = '';
+          data.forEach(row => {
+            html += `<li>${row.nombre} - ${row.clave}</li>`;
+          });
+          document.querySelector('#datos').innerHTML = html;
+        })
+        .catch(err => console.error(err));
+    }, 5000);
+  }
+</script>
+<script>
+const cabecera = document.querySelector('#cabecera');
+
+let cabeceraVisible = false;
+
+window.addEventListener('mousemove', (event) => {
+  if (event.clientY <= 60 && !cabeceraVisible) {
+    cabecera.classList.remove('oculto');
+    cabeceraVisible = true;
+  } else if (event.clientY > 0 && cabeceraVisible) {
+    cabecera.classList.add('oculto');
+    cabeceraVisible = false;
+  }
+});
+</script>
+  </body>
+</html>
+

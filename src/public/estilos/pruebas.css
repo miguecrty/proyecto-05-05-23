@@ -1,0 +1,174 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f1f1f1;
+  }
+  
+  /* Cabecera */
+  #cabecera {
+    /*background-color: #333;*/
+    background-image: url('../imagenes/SNMP.jpg');
+    color: #fff;
+    padding: 10px;
+  }
+  
+  #cabecera #img {
+    width: 100px;
+  }
+  
+  .main-menu {
+    list-style: none;
+    display: inline-block;
+    float: right;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .main-menu .menu-item {
+    display: inline-block;
+    margin: 0 10px;
+  }
+  
+  .main-menu .menu-item a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .main-menu .active a {
+    font-weight: bold;
+  }
+  
+  /* Contenido */
+  main {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+  
+  h2 {
+    font-size: 24px;
+    margin-top: 30px;
+  }
+  
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+  }
+  
+  ul li {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  a {
+    text-decoration: none; /* quitamos el subrayado predeterminado */
+    position: relative; /* establecemos la posición relativa */
+    color: #007bff; /* color del enlace */
+  }
+  
+  a {
+    text-decoration: none;
+    position: relative;
+    color: #007bff;
+    font-size: 20px;
+    font-weight: bold;
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 30px;
+    transition: color 0.2s ease-in-out;
+  }
+  
+  a::before, a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background-color: #007bff;
+    transition: transform 0.3s ease-in-out;
+    transform: scaleX(0);
+  }
+  
+  a::before {
+    transform-origin: left;
+  }
+  
+  a::after {
+    transform-origin: right;
+  }
+  
+  a:hover {
+    color: #150453;
+  }
+  
+  a:hover::before {
+    transform: scaleX(1);
+    transform-origin: right;
+  }
+  
+  a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  
+  a:focus {
+    outline: none;
+    color: #150453;
+  }
+  
+  a:focus::before {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+  
+  a:focus::after {
+    transform: scaleX(1);
+    transform-origin: right;
+  }
+  
+  a:hover::before, a:hover::after, a:focus::before, a:focus::after {
+    background-color: #28a745;
+  }
+  b {
+    font-weight: bold;
+    color: #333; /* Color de texto negro */
+    letter-spacing: 1px; /* Añade espacio entre las letras */
+    font-size: 18px; /* Tamaño de la fuente */
+    background-color: #f2f2f2; /* Color de fondo gris claro */
+    padding: 5px; /* Añade espacio interno alrededor del texto */
+    border-radius: 3px; /* Agrega esquinas redondeadas */
+    display: inline-block; /* Hace que el elemento se muestre como un bloque */
+    text-transform: uppercase; /* Transforma el texto en mayúsculas */
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.2); /* Agrega una sombra alrededor del elemento */
+    transition: all 0.3s ease-in-out; /* Añade una transición suave */
+    cursor: pointer; /* Cambia el cursor del mouse cuando se pasa sobre el elemento */
+  }
+  
+  b:hover {
+    transform: translateY(-2px); /* Añade un efecto de desplazamiento hacia arriba cuando se pasa el mouse sobre el elemento */
+    box-shadow: 2px 2px 4px rgba(0,0,0,0.3); /* Aumenta la intensidad de la sombra */
+  }
+  
+  .midiv{
+    padding-top:75px;
+    transform:translatex(8px) translatey(4px);
+    background-image: url('../imagenes/SNMP.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    cursor: pointer;
+   }
+  
