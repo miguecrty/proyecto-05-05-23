@@ -9,8 +9,7 @@ window.onload = function() {
   let chart4;
   let chart5;
   let chart6;
-  let prueba = [1,2,3,4,5];
-  let activo = [];
+  const umbralg1=100;
   let actualiza1;
   let actualiza2;
   let actualiza3;
@@ -176,15 +175,16 @@ window.onload = function() {
     div1.style.display="block";
     actualizarGraficas(id, 1).then(function(nuevosValores) 
     {
+      
       chart1 = new Chart(ctx, {
         type: 'line',
         data: {
           labels: nuevosValores.tiempo,
           datasets: [{
-            label: 'Valor del tiempo',
+            label: 'Número total de octetos recibidos',
             data: nuevosValores.valorg1,
-            backgroundColor: 'transparent',
-            borderColor: 'blue',
+            backgroundColor: 'rgba(0, 255, 0, 0.2)',
+            borderColor: 'green',
             borderWidth: 1
           }]
         },
@@ -193,13 +193,13 @@ window.onload = function() {
             xAxes: [{
               scaleLabel: {
                 display: true,
-                labelString: 'Valor'
+                labelString: 'Tiempo'
               }
             }],
             yAxes: [{
               scaleLabel: {
                 display: true,
-                labelString: 'Tiempo'
+                labelString: 'Mbytes'
               },
               ticks: {
                 beginAtZero: true
@@ -210,6 +210,7 @@ window.onload = function() {
       });
     actualiza1 =  setInterval(function() {
       ultid = id;
+      let colorg1;
       actualizarGraficas(id, 1).then(function(nuevosValores) {
         // Actualiza los datos de la gráfica con los nuevos valores recibidos
         var chartData = chart1.data.datasets[0].data;
@@ -238,10 +239,10 @@ window.onload = function() {
         data: {
           labels: nuevosValores.tiempo,
           datasets: [{
-            label: 'Valor del tiempo',
+            label: 'Número total de octetos transmitidos',
             data: nuevosValores.valorg2,
-            backgroundColor: 'transparent',
-            borderColor: 'blue',
+            backgroundColor: 'rgba(255, 0, 0, 0.2)',
+            borderColor: 'red',
             borderWidth: 1
           }]
         },
@@ -250,13 +251,13 @@ window.onload = function() {
             xAxes: [{
               scaleLabel: {
                 display: true,
-                labelString: 'Valor'
+                labelString: 'Tiempo'
               }
             }],
             yAxes: [{
               scaleLabel: {
                 display: true,
-                labelString: 'Tiempo'
+                labelString: 'MBytes'
               },
               ticks: {
                 beginAtZero: true
@@ -296,10 +297,9 @@ window.onload = function() {
         data: {
           labels: ["RAM USADA","RAM SIN UTILIZAR"],
           datasets: [{
-            label: 'Valor del tiempo',
             data: nuevosValores.valorg3[nuevosValores.valorg3.length - 1],
             backgroundColor: [
-              'green',
+              'yellow',
               'rgb(54, 50, 235)'
             ]
           }]
@@ -365,16 +365,33 @@ window.onload = function() {
         data: {
           labels: numero,
           datasets: [{
-            label: 'Valor del tiempo',
+            label: 'transparent',
             data: numcpu,
             backgroundColor: colors
           }]
         },
         options: {
+          title: {
+            display: true,
+            text: 'Uso de la CPU'
+          },
+          legend: {
+            display: false
+          },
           scales: {
             yAxes: [{
               ticks: {
                 beginAtZero: true
+              },
+              scaleLabel: {
+                display: true,
+                labelString: 'Carga de CPU (%)'
+              }
+            }],
+            xAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'CPU'
               }
             }]
           }
@@ -409,7 +426,8 @@ window.onload = function() {
         data: {
           labels: nuevosValores.tiempo,
           datasets: [{
-            label: 'Valor del tiempo',
+            lineTension: 0,
+            label: 'Número total de procesos',
             data: nuevosValores.valorg5,
             backgroundColor: 'transparent',
             borderColor: 'blue',
@@ -417,6 +435,33 @@ window.onload = function() {
           }]
         },
         options: {
+          title: {
+            display: true,
+            text: 'Número total de procesos funcionando en el sistema'
+          },
+          legend: {
+            display: false
+          },
+          scales: {
+            yAxes: [{
+              ticks: {
+                stepSize: 1,
+                callback: function(value, index, values) {
+                  return value.toFixed(0);
+                }
+              },
+              scaleLabel: {
+                display: true,
+                labelString: 'Número de procesos'
+              }
+            }],
+            xAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'Tiempo'
+              }
+            }]
+          }
         }
       });
     actualiza5 =  setInterval(function() {
@@ -450,11 +495,11 @@ window.onload = function() {
         data: {
           labels: nuevosValores.tiempo,
           datasets: [{
-            label: 'Valor del tiempo',
+            label: 'Cantidad de almacenamiento usada',
             data: nuevosValores.valorg6,
-            backgroundColor: 'transparent',
-            borderColor: 'blue',
-            borderWidth: 1
+            backgroundColor: 'rgba(255, 165, 0, 0.2)',
+            borderColor: 'orange',
+            borderWidth: 2.5
           }]
         },
         options: {
@@ -462,13 +507,13 @@ window.onload = function() {
             xAxes: [{
               scaleLabel: {
                 display: true,
-                labelString: 'Valor'
+                labelString: 'Tiempo'
               }
             }],
             yAxes: [{
               scaleLabel: {
                 display: true,
-                labelString: 'Tiempo'
+                labelString: 'Mbytes de disco usados'
               },
               ticks: {
                 beginAtZero: true

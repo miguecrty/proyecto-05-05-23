@@ -40,11 +40,11 @@ app.listen(app.get("port"));
 /////////////////////////// BBDD //////////////////////////////////////////////
 
 
-//let ip_juanma="192.168.100.38";
+let ip_juanma="192.168.1.164";
 let ip_migue="192.168.1.145";
 //let ip_rafa="192.168.1.172";
 
-let ips = [ip_migue];
+let ips = [ip_migue,ip_juanma];
 let cpu_nucleos = [];
 
 const pool = new pg.Pool({
@@ -159,31 +159,25 @@ fs.readFile(sqlFilePath, 'utf8', (err, sqlQuery) => {
         });
       }
 
-      if(results.rows[i].numcpu == '0')
+      if(results.rows[i].numcpu == 0)
       { 
         pool.query("SELECT ip FROM pcs WHERE numcpu='"+0+"'", (error, results) => {
           for(let i=0;i<results.rows.length;i++){
             let ip = (results.rows[i]).ip;
             let oid_nucleos = [1,3,6,1,2,1,25,3,3,1]; // OID para hrProcessorEntry
-             insertarNucleos(ips[i],oid_nucleos);
+             insertarNucleos(ip,oid_nucleos);
           }
         });
-      }
-      if(cpu_nucleos == "")
-      { 
-        let oid_pos_inicio = ["1.3.6.1.2.1.25.3.3.1.1"];
-        insertarPosicionInicioNucleos(ips[i],oid_pos_inicio,i);
-
       }
     }
     for(let i = 0; i< results.rows.length;i++)
     {
-      if(results.rows[i].syscontact == "-" || results.rows[i].ifindex == "-" || results.rows[i].numcpu == "-" || results.rows[i].sys_name == "-" || results.rows[i].syslocation == "-")
+      if(results.rows[i].syscontact == "-" || results.rows[i].ifindex == "-" || results.rows[i].numcpu == "-" || results.rows[i].sys_name == "-" || results.rows[i].syslocation == "-" || cpu_nucleos[i] == "" || results.rows[i].numcpu == 0 )
       {
+        exito = false;
       console.log("Error al insertar en la ip: "+results.rows[i].ip+" \n Reintentando...")
       }
-      else
-      {
+      else{
         exito = true;
       }
     }
@@ -312,11 +306,20 @@ function insertarNucleos(ip,oid){
         if (error)
         {
           console.log("Error Nucleos")
-          insertarNucleos(ip,oid);
         }
-      });
-    }
-  });
+                  pool.query("SELECT * FROM pcs", (error, results) => {
+                    if (error)
+                    {
+                      console.log("Error Nucleos")
+                    }
+                    for(let i=0;i<results.rows.length;i++)
+                    {
+                    //console.log(results.rows[i]);
+                    }
+                });
+    });
+  }
+});
 }
   function insertarPosicionInicioNucleos(ip,oid,posicion){
   var session = snmp.createSession(ip, "public", {timeout : 5000});
@@ -412,7 +415,7 @@ let valorg6eq=[];
 
 let ifInOctets=[];
 let ifOutOctets=[];
-
+let hrRestante_aux = [];
 
 let g1aux = [];
 let g2aux = [];
@@ -606,33 +609,41 @@ session.get(oids.ifOctets, function(error, varbinds) {
                           }
                   }
                }
-  });
-
-  
-   let max = 10000;
-   let min = 0;
-   let v1 = Math.round(Math.random() * (40 - min) + 20);
-   let v2 = 100-v1;
-  
-    const valorSNMPg5 = [v1,v2];
-    const valorSNMPg6 = Math.round(Math.random() * (max - min) + min);
-    if(g1 != null && g2 != null && g3 != null && g4 != null && g5 != null && g6 != null){
-    g6.push(valorSNMPg6);
-    }
-
-    
-    if(valorSNMPg5 > 5000)
-    {
-      facturag5[id].penalizacion.push(1);
-      facturag5[id].tiempo.push(tiempoeq[id][tiempoeq[id].length-1]);
-    }
-    if(valorSNMPg6 > 5000)
-    {
-      facturag6[id].penalizacion.push(1);
-      facturag6[id].tiempo.push(tiempoeq[id][tiempoeq[id].length-1]);
-    }
-    
-       
+      });
+      const oid_memoriadiscototal = "1.3.6.1.2.1.25.2.3.1.5.1"; //hrStorageSize
+      const oid_memoriadiscousada = "1.3.6.1.2.1.25.2.3.1.6.1"; //hrStorageUsed
+      const oid_storage = [oid_memoriadiscototal,oid_memoriadiscousada];
+        session.get(oid_storage, function(error, varbinds) {
+          if (error) {
+              console.error(error);
+          } else {
+            for (var i = 0; i < varbinds.length; i++) {
+              if (snmp.isVarbindError(varbinds[i])) {
+                  console.error(snmp.varbindError(varbinds[i]));
+                   }        
+                 }
+                      const hrTotalAllocationUnits = varbinds[0].value;
+                      let hrTotalMB = ((hrTotalAllocationUnits*4096)/(1024*1024)).toFixed(2);
+                      
+                      const hrUsedAllocationUnits = varbinds[1].value;
+                      let hrUsedMB = ((hrUsedAllocationUnits*4096)/(1024*1024)).toFixed(2);
+                      hrTotalMB = parseFloat(hrTotalMB);
+                      hrUsedMB = parseFloat(hrUsedMB);
+                      let hrRestante = (hrTotalMB-hrUsedMB).toFixed(2);
+                      if(hrRestante_aux[id] == null){
+                        hrRestante_aux[id] = hrRestante;
+                        }
+                        let valorMedirStorage = (hrRestante_aux[id]-hrRestante).toFixed(2);
+                        g6.push(valorMedirStorage);
+                      if( valorMedirStorage > 50)
+                          {
+                            facturag6[id].penalizacion.push("Espacio de disco superado");
+                            facturag6[id].tiempo.push(tiempoeq[id][tiempoeq[id].length-1]);
+                          }
+                  
+               
+              }
+      });    
 }
 
 
@@ -760,7 +771,6 @@ res.json(valores);
 });
 app.get('/muestratiempo', (req, res) => {
   const equipo = req.query.id; 
-  console.log(equipo);
   let tiempoinicial = tiempoeq[equipo][0];
   let tiempofinal =tiempoeq[equipo][tiempoeq[equipo].length-1];
   let tiempoISegundos = ((tiempoinicial.split(':')[0] * 60) + Number(tiempoinicial.split(':')[1])) * 60 + Number(tiempoinicial.split(':')[2]);
@@ -842,12 +852,17 @@ let ponderacion_penalizacion1=facturag1[equipo].penalizacion.length*0.01;
 let ponderacion_penalizacion2=facturag2[equipo].penalizacion.length*0.02;
 let ponderacion_penalizacion3=facturag3[equipo].penalizacion.length*0.1;
 let ponderacion_penalizacion4=facturag4[equipo].penalizacion.length*0.25;
-let total=coste_tu + ponderacion_fija + ponderacion_penalizacion1 + ponderacion_penalizacion2 + ponderacion_penalizacion3 + ponderacion_penalizacion4;
+let ponderacion_penalizacion5=facturag5[equipo].penalizacion.length*0.1;
+let ponderacion_penalizacion6=facturag6[equipo].penalizacion.length*0.1;
+
+let total=coste_tu + ponderacion_fija + ponderacion_penalizacion1 + ponderacion_penalizacion2 + ponderacion_penalizacion3 + ponderacion_penalizacion4 + ponderacion_penalizacion5 + ponderacion_penalizacion6;
 let ponderaciones = {
-  "penalizacion1":+ponderacion_penalizacion1,
-  "penalizacion2":+ponderacion_penalizacion2,
-  "penalizacion3":+ponderacion_penalizacion3,
-  "penalizacion4":+ponderacion_penalizacion4,
+  "penalizacion1":+ponderacion_penalizacion1.toFixed(2),
+  "penalizacion2":+ponderacion_penalizacion2.toFixed(2),
+  "penalizacion3":+ponderacion_penalizacion3.toFixed(2),
+  "penalizacion4":+ponderacion_penalizacion4.toFixed(2),
+  "penalizacion5":+ponderacion_penalizacion5.toFixed(2),
+  "penalizacion6":+ponderacion_penalizacion6.toFixed(2),
   "total":+total.toFixed(2)
 }
  
