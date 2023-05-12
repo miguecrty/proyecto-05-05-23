@@ -42,9 +42,9 @@ app.listen(app.get("port"));
 
 //let ip_juanma="192.168.100.38";
 let ip_migue="192.168.1.145";
-let ip_rafa="192.168.1.172";
+//let ip_rafa="192.168.1.172";
 
-let ips = [ip_migue,ip_rafa];
+let ips = [ip_migue];
 let cpu_nucleos = [];
 
 const pool = new pg.Pool({
@@ -180,7 +180,7 @@ fs.readFile(sqlFilePath, 'utf8', (err, sqlQuery) => {
     {
       if(results.rows[i].syscontact == "-" || results.rows[i].ifindex == "-" || results.rows[i].numcpu == "-" || results.rows[i].sys_name == "-" || results.rows[i].syslocation == "-")
       {
-      console.log(results.rows[i])
+      console.log("Error al insertar en la ip: "+results.rows[i].ip+" \n Reintentando...")
       }
       else
       {
@@ -206,6 +206,7 @@ function insertarsyslocation(oid_syslocation,ip){
   var session = snmp.createSession(ip, "public",{timeout : 5000});
   session.get(oid_syslocation, function(error, varbinds) {
     if (error) {
+      console.log("Error peticion SNMP syslocation a la ip: "+ip);
       insertarsyslocation(oid_syslocation,ip);
     } else 
     {
@@ -227,6 +228,7 @@ function insertarsyscontact(oid_syscontact,ip){
   var session = snmp.createSession(ip, "public",{timeout : 5000});
   session.get(oid_syscontact, function(error, varbinds) {
     if (error) {
+      console.log("Error peticion SNMP syscontact a la ip: "+ip);
       insertarsyscontact(oid_syscontact,ip);
     } else 
     {
@@ -245,6 +247,7 @@ function insertarsysname(oid_sysname,ip){
   var session = snmp.createSession(ip, "public", {timeout : 5000});
   session.get(oid_sysname, function(error, varbinds) {
     if (error) {
+      console.log("Error peticion SNMP sysname a la ip: "+ip);
       insertarsysname(oid_sysname,ip);
     } else 
     {
@@ -276,11 +279,10 @@ function insertarsysname(oid_sysname,ip){
     });
 }
 function insertarIfindex(oid_ifIndex,ip){
-  console.log(ip)
   var session = snmp.createSession(ip, "public", {timeout : 5000});
   session.get(oid_ifIndex, function(error, varbinds) {
     if (error) {
-      console.log("Error en la ip: "+ip);
+      console.log("Error peticion SNMP ifindex a la ip: "+ip);
     } else 
     {
       const ifindex = varbinds[0].value.toString();
@@ -288,7 +290,7 @@ function insertarIfindex(oid_ifIndex,ip){
       pool.query("UPDATE pcs SET ifindex ="+ifindex+" WHERE ip ='"+ip+"'", (error, results) => {
         if (error)
         {
-          console.log("Error ifindex")
+          console.log("Error en insertar ifindex")
           insertarIfindex(oid_ifIndex,ip);
         }
       });
@@ -303,10 +305,9 @@ function insertarNucleos(ip,oid){
   });
   session1.getSubtree({ oid }, (error, varbinds) => {
     if (error) {
-      console.error(error);
+      console.log("Error peticion SNMP num_cpu a la ip: "+ip);
     } else {
       let num_cpu = varbinds.length/2;
-      console.log(`Número de filas en la tabla: `+num_cpu);
       pool.query("UPDATE pcs SET numcpu ="+num_cpu+" WHERE ip ='"+ip+"'", (error, results) => {
         if (error)
         {
@@ -321,7 +322,7 @@ function insertarNucleos(ip,oid){
   var session = snmp.createSession(ip, "public", {timeout : 5000});
   session.getNext(oid, function(error, varbinds) {
     if (error) {
-      console.log("Error en num_cpu: "+ip);
+      console.log("Error peticion SNMP num_cpu a la ip: "+ip);
     } else 
     {
       const nextOid = varbinds[0].oid;
@@ -337,10 +338,10 @@ function insertarNucleos(ip,oid){
 /////////////////////////// LOGIN //////////////////////////////////////////////
 // Configurar la sesión
 app.use(session({
-  secret: 'secreto', // Cambiar a una cadena aleatoria y segura en producción
+  secret: 'secreto',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false } // Solo enviar la cookie a través de HTTPS en producción
+  cookie: { secure: false } // Solo enviar la cookie a través de HTTP
 }));
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -392,7 +393,7 @@ let estado_pcs = [];
 let equipos;
 let alquiladores = [];
 let tiempoeq = [];
-const TOTAL_EQUIPOS=5;
+const TOTAL_EQUIPOS=ips.length;
 
 let facturas = [];
 let facturag1 = {};
@@ -575,7 +576,7 @@ session.get(oids.ifOctets, function(error, varbinds) {
                             cargaCPU.push(cpu$i);
                             if(cpu$i > 30)
                             {
-                              facturag4[id].penalizacion.push(1);
+                              facturag4[id].penalizacion.push("Cpu"+i+" ha sobrepasado 30%");
                               facturag4[id].tiempo.push(tiempoeq[id][tiempoeq[id].length-1]);
                             }
                         }
@@ -583,29 +584,39 @@ session.get(oids.ifOctets, function(error, varbinds) {
                     g4.push(cargaCPU);
                      }
         });
-       
-    
+       const oid_numprocesos = ["1.3.6.1.2.1.25.1.6.0"];
+        session.get(oid_numprocesos, function(error, varbinds) {
+          if (error) {
+              console.error(error);
+          } else {
+                  if (snmp.isVarbindError(varbinds[0])) {
+                      console.error(snmp.varbindError(varbinds[0]));
+                  } else {
+                     let num_procesos = varbinds[0].value;
+                     if(g5[0] == 0)
+                     {
+                      g5[0]=num_procesos;
+                     }
+                     g5.push(num_procesos);
+
+                     if(num_procesos > 250)
+                          {
+                            facturag5[id].penalizacion.push("Numero de procesos mayores que 250");
+                            facturag5[id].tiempo.push(tiempoeq[id][tiempoeq[id].length-1]);
+                          }
+                  }
+               }
+  });
 
   
    let max = 10000;
    let min = 0;
    let v1 = Math.round(Math.random() * (40 - min) + 20);
    let v2 = 100-v1;
-   
-   let cpu1 =Math.round(Math.random() * (40 - min) + 20);
-   let cpu2 =Math.round(Math.random() * (40 - min) + 20);
-   let cpu3 =Math.round(Math.random() * (40 - min) + 20);
-   let cpu4 =Math.round(Math.random() * (40 - min) + 20);
-   let cpu5 =Math.round(Math.random() * (40 - min) + 20);
-   let cpu6 =Math.round(Math.random() * (40 - min) + 20);
-   let cpu7 =Math.round(Math.random() * (40 - min) + 20);
-   let cpu8 =Math.round(Math.random() * (40 - min) + 20);
-
+  
     const valorSNMPg5 = [v1,v2];
-    const valorSNMPg4 = [cpu1,cpu2,cpu3,cpu4,cpu5,cpu6,cpu7,cpu8];
     const valorSNMPg6 = Math.round(Math.random() * (max - min) + min);
     if(g1 != null && g2 != null && g3 != null && g4 != null && g5 != null && g6 != null){
-    g5.push(valorSNMPg5);
     g6.push(valorSNMPg6);
     }
 
@@ -621,31 +632,6 @@ session.get(oids.ifOctets, function(error, varbinds) {
       facturag6[id].tiempo.push(tiempoeq[id][tiempoeq[id].length-1]);
     }
     
-    
-
- 
-//Para la CPU
-    /*
-    var session = snmp.createSession("192.168.1.145", "public");
-     // OID para ifOutOctets del primer interfaz
-        session.get(oids, function(error, varbinds) {
-            if (error) {
-                console.error(error);
-            } else {
-                let varbind=0;
-                for (var i = 0; i < varbinds.length; i++) {
-                    if (snmp.isVarbindError(varbinds[i])) {
-                        console.error(snmp.varbindError(varbinds[i]));
-                    } else {
-                        console.log(varbinds[i].oid + " = " + varbinds[i].value);
-                        varbind = varbind + varbinds[i].value;
-                    }
-                }
-                varbind=varbind/8;
-                console.log("Promedio de la CPU:" + varbind);
-            }
-        });
-*/
        
 }
 

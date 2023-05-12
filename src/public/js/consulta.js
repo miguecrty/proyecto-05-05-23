@@ -299,7 +299,7 @@ window.onload = function() {
             label: 'Valor del tiempo',
             data: nuevosValores.valorg3[nuevosValores.valorg3.length - 1],
             backgroundColor: [
-              'rgb(255, 99, 132)',
+              'green',
               'rgb(54, 50, 235)'
             ]
           }]
@@ -405,16 +405,15 @@ window.onload = function() {
     actualizarGraficas(id, 5).then(function(nuevosValores) 
     {
       chart5 = new Chart(ctx, {
-        type: 'doughnut',
+        type: 'line',
         data: {
-          labels: ["RAM USADA","RAM SIN UTILIZAR"],
+          labels: nuevosValores.tiempo,
           datasets: [{
             label: 'Valor del tiempo',
-            data: [30,50],
-            backgroundColor: [
-              'rgb(255, 99, 132)',
-              'rgb(54, 50, 235)'
-            ]
+            data: nuevosValores.valorg5,
+            backgroundColor: 'transparent',
+            borderColor: 'blue',
+            borderWidth: 1
           }]
         },
         options: {
@@ -422,7 +421,7 @@ window.onload = function() {
       });
     actualiza5 =  setInterval(function() {
       ultid = id;
-      /*  
+    
       actualizarGraficas(id, 5).then(function(nuevosValores) {
         // Actualiza los datos de la gráfica con los nuevos valores recibidos
         var chartData = chart5.data.datasets[0].data;
@@ -433,7 +432,7 @@ window.onload = function() {
         // Actualizar la gráfica con los nuevos datos
         chart5.update();
       });
-      */
+      
     },5000);
     }).catch(function(error) {
       console.error(error);
