@@ -42,7 +42,8 @@ app.listen(app.get("port"));
 
 let ip_juanma="192.168.1.164";
 let ip_migue="192.168.1.145";
-//let ip_rafa="192.168.1.172";
+//let ip_rafa="192.168.0.161";
+
 
 let ips = [ip_migue,ip_juanma];
 let cpu_nucleos = [];
@@ -64,12 +65,17 @@ pool.connect((err, client, release) => {
 
 const sqlFilePath = 'src/public/sql/tablasGestion.sql';
 
+
 fs.readFile(sqlFilePath, 'utf8', (err, sqlQuery) => {
   if (err) {
     console.error(err);
     return;
   }
 
+
+  
+
+  
   pool.connect();
   pool.query(sqlQuery, (err, res) => {
     if (err) {
@@ -108,6 +114,7 @@ fs.readFile(sqlFilePath, 'utf8', (err, sqlQuery) => {
   }
 
 
+  
   ////////////////////// Si existe algun fallo SNMP o de insertar en BBDD ////////////////////////////////
   let exito;
  let compruebasnmp = setInterval(function() { 
@@ -340,6 +347,8 @@ function insertarNucleos(ip,oid){
 
 /////////////////////////// LOGIN //////////////////////////////////////////////
 // Configurar la sesión
+
+
 app.use(session({
   secret: 'secreto',
   resave: false,
@@ -390,6 +399,15 @@ app.post('/logout', (req, res) => {
 });
 
 ///////////////////////////////////////////////////////////////////////////////
+const precio_pc=5;
+const precio_internet=3;
+const unitarioTiempo=0.05;
+const unitariog1=0.01;
+const unitariog2=0.02;
+const unitariog3=0.1;
+const unitariog4=0.25
+const unitariog5=0.1;
+const unitariog6=0.1;
 
 
 let estado_pcs = [];
@@ -740,16 +758,10 @@ app.get('/detenersnmp', (req, res) => {
     g6aux[equipo] = valorg6eq[equipo];
     tiempoaux[equipo] = tiempoeq[equipo];
 
-    valorg1eq[equipo]=[0];
-    valorg2eq[equipo]=[0];
-    valorg3eq[equipo]=[0];
-    valorg4eq[equipo]=[0];
-    valorg5eq[equipo]=[0];
-    valorg6eq[equipo]=[0];
-    tiempoeq[equipo]=null;
-    ifInOctets[equipo]=null;
-    ifOutOctets[equipo]=null;
+    
 });
+
+
 
 valores = {"estado": ''+estado+''};
   res.send(valores);
@@ -809,11 +821,12 @@ let tiempofinal =tiempoaux[equipo][tiempoaux[equipo].length-1];
 let tiempoISegundos = ((tiempoinicial.split(':')[0] * 60) + Number(tiempoinicial.split(':')[1])) * 60 + Number(tiempoinicial.split(':')[2]);
 let tiempoFSegundos = ((tiempofinal.split(':')[0] * 60) + Number(tiempofinal.split(':')[1])) * 60 + Number(tiempofinal.split(':')[2]);
 let num_factura=0;
-const fecha = new Date();
-const dia = fecha.getDate().toString().padStart(2, '0');
-const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
-const anio = fecha.getFullYear().toString();
-const fechaFormateada = `${dia}/${mes}/${anio}`;
+ //////////////////////////////Para obtener la fecha y la hora////////////////////////////////////////////////
+ const currentDate = new Date();
+ const formattedDate = currentDate.toLocaleDateString();
+ const formattedTime = currentDate.toLocaleTimeString();
+ const fechaFormateada = `${formattedDate} - ${formattedTime}`;
+
 
 
 // Calcular diferencia en segundos
@@ -848,12 +861,12 @@ let factura_final = {
 
     
 let ponderacion_fija=5+3;//El equipo costaría por usarlo como precio fijo 5 euros y la fibra 3 euros.
-let ponderacion_penalizacion1=facturag1[equipo].penalizacion.length*0.01;
-let ponderacion_penalizacion2=facturag2[equipo].penalizacion.length*0.02;
-let ponderacion_penalizacion3=facturag3[equipo].penalizacion.length*0.1;
-let ponderacion_penalizacion4=facturag4[equipo].penalizacion.length*0.25;
-let ponderacion_penalizacion5=facturag5[equipo].penalizacion.length*0.1;
-let ponderacion_penalizacion6=facturag6[equipo].penalizacion.length*0.1;
+let ponderacion_penalizacion1=facturag1[equipo].penalizacion.length*unitariog1;
+let ponderacion_penalizacion2=facturag2[equipo].penalizacion.length*unitariog2;
+let ponderacion_penalizacion3=facturag3[equipo].penalizacion.length*unitariog3;
+let ponderacion_penalizacion4=facturag4[equipo].penalizacion.length*unitariog4;
+let ponderacion_penalizacion5=facturag5[equipo].penalizacion.length*unitariog5;
+let ponderacion_penalizacion6=facturag6[equipo].penalizacion.length*unitariog6;
 
 let total=coste_tu + ponderacion_fija + ponderacion_penalizacion1 + ponderacion_penalizacion2 + ponderacion_penalizacion3 + ponderacion_penalizacion4 + ponderacion_penalizacion5 + ponderacion_penalizacion6;
 let ponderaciones = {
@@ -866,32 +879,312 @@ let ponderaciones = {
   "total":+total.toFixed(2)
 }
  
-res.render('factura',{factura : factura_final, valores : valores, ponderaciones : ponderaciones});
-});
-});
 
-app.post('/guardar-archivo',(req, res) => {
-  const cliente = req.query.cliente;
-  const query = {
-    text: 'INSERT INTO facturas (nombre, factura) VALUES ($1, $2)',
-    values: [cliente, req.body],
-  };
-  pool.query(query, (err, result) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Error al guardar el archivo');
-    } else {
-      console.log('Archivo guardado correctamente en PostgreSQL');
-      res.send('Archivo guardado correctamente');
-    }
-  });
+let unitarios = {
+  "precio_pc":+precio_pc,
+  "precio_internet":precio_internet,
+  "unitarioTiempo":unitarioTiempo,
+  "unitario1":+unitariog1,
+  "unitario2":+unitariog2,
+  "unitario3":+unitariog3,
+  "unitario4":+unitariog4,
+  "unitario5":+unitariog5,
+  "unitario6":+unitariog6
+}
+
+
+const query = {
+  text: 'INSERT INTO facturas (id,id_pcs, coste_t, nombre, fecha_y_hora) VALUES ($1 , $2, $3, $4, $5) RETURNING id',
+  values: [num_factura,equipo ,ponderaciones.total, valores.cliente, fechaFormateada],
+};
+pool.query(query, (err, result) => {
+  if (err) {
+    console.error(err);
+  } else {
+    console.log('Factura guardada correctamente');
+    let id_factura = result.rows[0].id;
+
+    
+    const queryg1 = {
+      text: 'INSERT INTO penalizaciong1 (id_facturas, numero_penalizaciones, coste_unitario, ponderacion1) VALUES ($1 , $2, $3, $4)',
+      values: [id_factura, factura_final.factura1, unitariog1,ponderaciones.penalizacion1],
+    };
+    pool.query(queryg1, (err, result) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log('Penalizacion1 guardada correctamente');
+      }
+    });
+    
+    const queryg2 = {
+      text: 'INSERT INTO penalizaciong2 (id_facturas, numero_penalizaciones, coste_unitario, ponderacion2) VALUES ($1 , $2, $3, $4)',
+      values: [id_factura, factura_final.factura2, unitariog2,ponderaciones.penalizacion2],
+    };
+    pool.query(queryg2, (err, result) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log('Penalizacion2 guardada correctamente');
+      }
+    });
+
+    const queryg3 = {
+      text: 'INSERT INTO penalizaciong3 (id_facturas, numero_penalizaciones, coste_unitario, ponderacion3) VALUES ($1 , $2, $3, $4)',
+      values: [id_factura, factura_final.factura3, unitariog3,ponderaciones.penalizacion3],
+    };
+    pool.query(queryg3, (err, result) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log('Penalizacion3 guardada correctamente');
+      }
+    });
+
+    const queryg4 = {
+      text: 'INSERT INTO penalizaciong4 (id_facturas, numero_penalizaciones, coste_unitario, ponderacion4) VALUES ($1 , $2, $3, $4)',
+      values: [id_factura, factura_final.factura4, unitariog4,ponderaciones.penalizacion4],
+    };
+    pool.query(queryg4, (err, result) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log('Penalizacion4 guardada correctamente');
+      }
+    });
+
+    const queryg5 = {
+      text: 'INSERT INTO penalizaciong5 (id_facturas, numero_penalizaciones, coste_unitario, ponderacion5) VALUES ($1 , $2, $3, $4)',
+      values: [id_factura, factura_final.factura5, unitariog5,ponderaciones.penalizacion5],
+    };
+    pool.query(queryg5, (err, result) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log('Penalizacion5 guardada correctamente');
+      }
+    });
+    const queryg6 = {
+      text: 'INSERT INTO penalizaciong6 (id_facturas, numero_penalizaciones, coste_unitario, ponderacion6) VALUES ($1 , $2, $3, $4)',
+      values: [id_factura, factura_final.factura6, unitariog6,ponderaciones.penalizacion6],
+    };
+    pool.query(queryg6, (err, result) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log('Penalizacion6 guardada correctamente');
+      }
+    });
+    guardarDatos(factura_final,valores,ponderaciones,id_factura);
+  }
   
+});
 
+res.render('factura',{factura : factura_final, valores : valores, ponderaciones : ponderaciones, c_unitarios : unitarios});
+
+valorg1eq[equipo]=[0];
+    valorg2eq[equipo]=[0];
+    valorg3eq[equipo]=[0];
+    valorg4eq[equipo]=[0];
+    valorg5eq[equipo]=[0];
+    valorg6eq[equipo]=[0];
+    tiempoeq[equipo]=[];
+    ifInOctets[equipo]=[];
+    ifOutOctets[equipo]=[];
+});
+});
+
+function guardarDatos(numero_penalizaciones,valores,ponderaciones,id_factura)
+{
+  
+const csv ='\n'+id_factura+','+valores.equipo+','+ ponderaciones.total+','+valores.cliente+','+valores.fecha;
+const filePath = './src/public/facturas/facturas.csv';
+
+const cabecera_factura = 'id, id_pcs, coste_t, nombre, fecha_y_hora'
+const cabecera_tabla1 = 'id_facturas, numero_penalizaciones, coste_unitario, ponderacion1'
+const cabecera_tabla2= 'id_facturas, numero_penalizaciones, coste_unitario, ponderacion2'
+const cabecera_tabla3 = 'id_facturas, numero_penalizaciones, coste_unitario, ponderacion3'
+const cabecera_tabla4 = 'id_facturas, numero_penalizaciones, coste_unitario, ponderacion4'
+const cabecera_tabla5 = 'id_facturas, numero_penalizaciones, coste_unitario, ponderacion5'
+const cabecera_tabla6 = 'id_facturas, numero_penalizaciones, coste_unitario, ponderacion6'
+
+
+const csvpenalizacion1 ='\n'+id_factura+','+numero_penalizaciones.factura1+','+ unitariog1+','+ponderaciones.penalizacion1;
+const filePathpenalizacion1 = './src/public/facturas/penalizacion1.csv';
+
+const csvpenalizacion2 ='\n'+id_factura+','+numero_penalizaciones.factura2+','+ unitariog2+','+ponderaciones.penalizacion2;
+const filePathpenalizacion2 = './src/public/facturas/penalizacion2.csv';
+
+const csvpenalizacion3 ='\n'+id_factura+','+numero_penalizaciones.factura3+','+ unitariog3+','+ponderaciones.penalizacion3;
+const filePathpenalizacion3 = './src/public/facturas/penalizacion3.csv';
+
+const csvpenalizacion4 ='\n'+id_factura+','+numero_penalizaciones.factura4+','+ unitariog4+','+ponderaciones.penalizacion4;
+const filePathpenalizacion4 = './src/public/facturas/penalizacion4.csv';
+
+const csvpenalizacion5 ='\n'+id_factura+','+numero_penalizaciones.factura5+','+ unitariog5+','+ponderaciones.penalizacion5;
+const filePathpenalizacion5 = './src/public/facturas/penalizacion5.csv';
+
+const csvpenalizacion6 ='\n'+id_factura+','+numero_penalizaciones.factura6+','+ unitariog6+','+ponderaciones.penalizacion6;
+const filePathpenalizacion6 = './src/public/facturas/penalizacion6.csv';
+
+fs.access(filePath, fs.constants.F_OK, (err) => {
+  if (err) {
+    // El archivo no existe, lo creamos y escribimos los datos
+    fs.writeFile(filePath, cabecera_factura, (err) => {
+      if (err) throw err;
+      console.log('Creado el archivo facturas.csv');
+      // El archivo existe, escribimos los datos al final
+    fs.appendFile(filePath, csv, (err) => {
+      if (err) throw err;
+     
+    });
+    });
+  } 
+  else{
+    // El archivo existe, escribimos los datos al final
+    fs.appendFile(filePath, csv, (err) => {
+      if (err) throw err;
+      
+    });
+  }
+  
+});
+
+fs.access(filePathpenalizacion1, fs.constants.F_OK, (err) => {
+  if (err) {
+    // El archivo no existe, lo creamos y escribimos los datos
+    fs.writeFile(filePathpenalizacion1, cabecera_tabla1, (err) => {
+      if (err) throw err;
+      console.log('Creado el archivo penalizacion1.csv');
+       // El archivo existe, escribimos los datos al final
+    fs.appendFile(filePathpenalizacion1, csvpenalizacion1, (err) => {
+      if (err) throw err;
+      
+    });
+    });
+  } 
+  else{  
+  // El archivo existe, escribimos los datos al final
+    fs.appendFile(filePathpenalizacion1, csvpenalizacion1, (err) => {
+      if (err) throw err;
+      
+    });
+  }
+});
+
+fs.access(filePathpenalizacion2, fs.constants.F_OK, (err) => {
+  if (err) {
+    // El archivo no existe, lo creamos y escribimos los datos
+    fs.writeFile(filePathpenalizacion2, cabecera_tabla2, (err) => {
+      if (err) throw err;
+      console.log('Creado el archivo penalizacion2.csv');
+      fs.appendFile(filePathpenalizacion2, csvpenalizacion2, (err) => {
+        if (err) throw err;
+       
+      });
+    });
+  } 
+
+  else{
+    // El archivo existe, escribimos los datos al final
+    fs.appendFile(filePathpenalizacion2, csvpenalizacion2, (err) => {
+      if (err) throw err;
+     
+    });
+  }
+  
+});
+
+fs.access(filePathpenalizacion3, fs.constants.F_OK, (err) => {
+  if (err) {
+    // El archivo no existe, lo creamos y escribimos los datos
+    fs.writeFile(filePathpenalizacion3, cabecera_tabla3, (err) => {
+      if (err) throw err;
+      console.log('Creado el archivo penalizacion3.csv');
+      // El archivo existe, escribimos los datos al final
+    fs.appendFile(filePathpenalizacion3, csvpenalizacion3, (err) => {
+      if (err) throw err;
+      
+    });
+    });
+  } 
+  else{
+    fs.appendFile(filePathpenalizacion3, csvpenalizacion3, (err) => {
+      if (err) throw err;
+      
+    });
+    
+  }
+});
+
+fs.access(filePathpenalizacion4, fs.constants.F_OK, (err) => {
+  if (err) {
+    // El archivo no existe, lo creamos y escribimos los datos
+    fs.writeFile(filePathpenalizacion4, cabecera_tabla4, (err) => {
+      if (err) throw err;
+      console.log('Creado el archivo penalizacion4.csv');
+      // El archivo existe, escribimos los datos al final
+      fs.appendFile(filePathpenalizacion4, csvpenalizacion4, (err) => {
+      if (err) throw err;
+     
+    });
+    });
+
+  } 
+  else{
+    // El archivo existe, escribimos los datos al final
+    fs.appendFile(filePathpenalizacion4, csvpenalizacion4, (err) => {
+      if (err) throw err;
+      
+    });
+  }
+});
+
+fs.access(filePathpenalizacion5, fs.constants.F_OK, (err) => {
+  if (err) {
+    // El archivo no existe, lo creamos y escribimos los datos
+    fs.writeFile(filePathpenalizacion5, cabecera_tabla5, (err) => {
+      if (err) throw err;
+      console.log('Creado el archivo penalizacion5.csv');
+       // El archivo existe, escribimos los datos al final
+      fs.appendFile(filePathpenalizacion5, csvpenalizacion5, (err) => {
+      if (err) throw err;
+     
+    });
+    });
+  } 
+  else{
+     // El archivo existe, escribimos los datos al final
+     fs.appendFile(filePathpenalizacion5, csvpenalizacion5, (err) => {
+      if (err) throw err;
+      
+    });
+  }
+   
+  
+});
+
+fs.access(filePathpenalizacion6, fs.constants.F_OK, (err) => {
+  if (err) {
+    // El archivo no existe, lo creamos y escribimos los datos
+    fs.writeFile(filePathpenalizacion6, cabecera_tabla6, (err) => {
+      if (err) throw err;
+      console.log('Creado el archivo penalizacion6.csv');
+      // El archivo existe, escribimos los datos al final
+    fs.appendFile(filePathpenalizacion6, csvpenalizacion6, (err) => {
+      if (err) throw err;    
+    });
+    });
+  } 
+    // El archivo existe, escribimos los datos al final
+    fs.appendFile(filePathpenalizacion6, csvpenalizacion6, (err) => {
+      if (err) throw err;
+    
+    });
+  
 });
 
 
-
-
-
+}
 
 

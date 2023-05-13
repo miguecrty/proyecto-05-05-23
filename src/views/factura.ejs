@@ -40,19 +40,19 @@
           <tr>
             <td>Equipo <%=valores.equipo%></td>
             <td>1</td>
-            <td>5€</td>
-            <td>5€</td>
+            <td><%=c_unitarios.precio_pc%>€</td>
+            <td><%=c_unitarios.precio_pc%>€</td>
           </tr>
           <tr>
             <td>Fibra Óptica 600Mbps</td>
             <td>1</td>
-            <td>3€</td>
-            <td>3€</td>
+            <td><%=c_unitarios.precio_internet%>€</td>
+            <td><%=c_unitarios.precio_internet%>€</td>
           </tr>
           <tr>
             <td>Tiempo de uso (minutos)</td>
             <td><%=valores.tiempo_uso%></td>
-            <td>0.05€</td>
+            <td><%=c_unitarios.unitarioTiempo%>€</td>
             <td><%=valores.coste_tu%>€</td>
           </tr>
         </tbody>
@@ -73,39 +73,39 @@
           <tr>
             <td>PAQUETES (BAJADA) superados</td>
             <td><%=factura.factura1%></td>
-            <td>0.01€</td>
+            <td><%=c_unitarios.unitario1%>€</td>
             <td><%=ponderaciones.penalizacion1%>€</td>
           </tr>
           <tr>
             <td>PAQUETES (SUBIDA) superados</td>
             <td><%=factura.factura2%></td>
-            <td>0.02€</td>
+            <td><%=c_unitarios.unitario2%>€</td>
             <td><%=ponderaciones.penalizacion2%>€</td>
           </tr>
           <tr>
             <td>RAM superada</td>
             <td><%=factura.factura3%></td>
-            <td>0.1€</td>
+            <td><%=c_unitarios.unitario3%>€</td>
             <td><%=ponderaciones.penalizacion3%>€</td>
           </tr>
           <tr>
             <td>CPU superada</td>
             <td><%=factura.factura4%></td>
-            <td>0.25€</td>
+            <td><%=c_unitarios.unitario4%>€</td>
             <td><%=ponderaciones.penalizacion4%>€</td>
           </tr>
           
           <tr>
             <td>NUMERO DE PROCESOS superados</td>
             <td><%=factura.factura5%></td>
-            <td>0.1€</td>
+            <td><%=c_unitarios.unitario5%>€</td>
             <td><%=ponderaciones.penalizacion5%>€</td>
           </tr>
 
           <tr>
             <td>MEMORIA EN DISCO superada</td>
             <td><%=factura.factura6%></td>
-            <td>0.1€</td>
+            <td><%=c_unitarios.unitario6%>€</td>
             <td><%=ponderaciones.penalizacion6%>€</td>
           </tr>
 
@@ -131,22 +131,6 @@
   const cliente = document.querySelector('.factura-cliente p').textContent.split(': ')[1];
   const btnDescargar = document.querySelector("#btnDescargar");
   const element = document.querySelector(".factura");
-  window.onload = function() {
-  html2pdf()
-      .from(element)
-      .then((pdfData) => {
-    fetch('/guardar-archivo?cliente='+cliente, {
-      method: 'POST',
-      body: pdfData,
-    })
-      .then((response) => {
-        console.log('factura guardada correctamente en la BBDD');
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  });
-}
   btnDescargar.addEventListener("click", () => {
     html2pdf()
       .from(element)
